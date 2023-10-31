@@ -378,7 +378,7 @@ extern DECLSPEC void SDLCALL SDL_AndroidBackButton(void);
  *
  * \sa SDL_AndroidGetExternalStorageState
  */
-extern DECLSPEC const char * SDLCALL SDL_AndroidGetInternalStoragePath(void);
+extern DECLSPEC char * SDLCALL SDL_AndroidGetInternalStoragePath(void);
 
 /**
  * Get the current state of external storage.
@@ -413,7 +413,7 @@ extern DECLSPEC int SDLCALL SDL_AndroidGetExternalStorageState(void);
  *
  * \sa SDL_AndroidGetExternalStorageState
  */
-extern DECLSPEC const char * SDLCALL SDL_AndroidGetExternalStoragePath(void);
+extern DECLSPEC char * SDLCALL SDL_AndroidGetExternalStoragePath(void);
 
 /**
  * Request permissions at runtime.

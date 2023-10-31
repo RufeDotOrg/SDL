@@ -2393,7 +2393,7 @@ void SDL_AndroidBackButton(void)
     (*env)->CallStaticVoidMethod(env, mActivityClass, midManualBackButton);
 }
 
-const char *SDL_AndroidGetInternalStoragePath(void)
+char *SDL_AndroidGetInternalStoragePath(void)
 {
     static char *s_AndroidInternalFilesPath = NULL;
 
@@ -2486,7 +2486,7 @@ int SDL_AndroidGetExternalStorageState(void)
     return stateFlags;
 }
 
-const char *SDL_AndroidGetExternalStoragePath(void)
+char *SDL_AndroidGetExternalStoragePath(void)
 {
     static char *s_AndroidExternalFilesPath = NULL;
 

@@ -104,6 +104,7 @@ struct SDL_Window
     SDL_bool is_dropping; /* drag/drop in progress, expecting SDL_SendDropComplete(). */
 
     SDL_Rect mouse_rect;
+    SDL_Rect safe_rect;
 
     SDL_WindowShaper *shaper;
 

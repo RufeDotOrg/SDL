@@ -628,6 +628,12 @@ extern DECLSPEC int SDLCALL SDL_GetPointDisplayIndex(const SDL_Point * point);
 extern DECLSPEC int SDLCALL SDL_GetRectDisplayIndex(const SDL_Rect * rect);
 
 /**
+ Get the Safe Area rectangle for the display window.
+ May be zero width/height, indicating the window bounds should be preferred.
+ */
+extern DECLSPEC int SDLCALL SDL_GetWindowSafeRect(SDL_Window * window, SDL_Rect * rect);
+
+/**
  * Get the index of the display associated with a window.
  *
  * \param window the window to query

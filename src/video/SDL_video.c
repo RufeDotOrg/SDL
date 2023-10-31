@@ -1160,6 +1160,12 @@ int SDL_GetRectDisplayIndex(const SDL_Rect *rect)
     return GetRectDisplayIndex(rect->x, rect->y, rect->w, rect->h);
 }
 
+int SDL_GetWindowSafeRect(SDL_Window *window, SDL_Rect *rect)
+{
+  SDL_memcpy(rect, &window->safe_rect, sizeof(SDL_Rect));
+  return 0;
+}
+
 int SDL_GetWindowDisplayIndex(SDL_Window *window)
 {
     int displayIndex = -1;

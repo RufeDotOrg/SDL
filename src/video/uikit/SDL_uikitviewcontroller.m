@@ -197,6 +197,13 @@ SDL_HideHomeIndicatorHintChanged(void *userdata, const char *name, const char *o
     int w = (int) size.width;
     int h = (int) size.height;
 
+    if (@available(iOS 11, *)) {
+        self->window->safe_rect.x = self.view.layoutMargins.left;
+        self->window->safe_rect.y = self.view.layoutMargins.top;
+        self->window->safe_rect.w = w - self.view.layoutMargins.left - self.view.layoutMargins.right;
+        self->window->safe_rect.h = h - self.view.layoutMargins.top - self.view.layoutMargins.bottom;
+    }
+
     SDL_SendWindowEvent(window, SDL_WINDOWEVENT_RESIZED, w, h);
 }
 

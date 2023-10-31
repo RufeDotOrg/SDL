@@ -161,6 +161,8 @@ static SDL_VideoDevice *Android_CreateDevice(void)
     device->GetClipboardText = Android_GetClipboardText;
     device->HasClipboardText = Android_HasClipboardText;
 
+    device->quirk_flags |= VIDEO_DEVICE_QUIRK_DISABLE_UNSET_FULLSCREEN_ON_MINIMIZE;
+
     return device;
 }
 

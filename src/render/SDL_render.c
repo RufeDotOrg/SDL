@@ -691,6 +691,7 @@ static int SDLCALL SDL_RendererEventWatch(void *userdata, SDL_Event *event)
              */
             if (event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED ||
                 event->window.event == SDL_WINDOWEVENT_DISPLAY_CHANGED) {
+#if !defined(__ANDROID__)
                 /* Make sure we're operating on the default render target */
                 SDL_Texture *saved_target = SDL_GetRenderTarget(renderer);
                 if (saved_target) {
@@ -709,15 +710,10 @@ static int SDLCALL SDL_RendererEventWatch(void *userdata, SDL_Event *event)
                 }
 
                 if (renderer->logical_w) {
-#if defined(__ANDROID__)
-                    /* Don't immediatly flush because the app may be in
-                     * background, and the egl context shouldn't be used. */
-                    SDL_bool flush_viewport_cmd = SDL_FALSE;
-#else
                     SDL_bool flush_viewport_cmd = SDL_TRUE;
-#endif
                     UpdateLogicalSize(renderer, flush_viewport_cmd);
-                } else {
+                } else
+                {
                     /* Window was resized, reset viewport */
                     int w, h;
 
@@ -732,17 +728,13 @@ static int SDLCALL SDL_RendererEventWatch(void *userdata, SDL_Event *event)
                     renderer->viewport.w = (double)w;
                     renderer->viewport.h = (double)h;
                     QueueCmdSetViewport(renderer);
-#if defined(__ANDROID__)
-                    /* Don't immediatly flush because the app may be in
-                     * background, and the egl context shouldn't be used. */
-#else
                     FlushRenderCommandsIfNotBatching(renderer);
-#endif
                 }
 
                 if (saved_target) {
                     SDL_SetRenderTarget(renderer, saved_target);
                 }
+#endif
             } else if (event->window.event == SDL_WINDOWEVENT_HIDDEN) {
                 renderer->hidden = SDL_TRUE;
             } else if (event->window.event == SDL_WINDOWEVENT_SHOWN) {

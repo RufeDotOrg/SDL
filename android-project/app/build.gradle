@@ -13,14 +13,13 @@ android {
     }
     compileSdkVersion 34
     defaultConfig {
-        minSdkVersion 19
         targetSdkVersion 34
-        versionCode 1
-        versionName "1.0"
+        // https://apilevels.com/
+        minSdkVersion 26
         externalNativeBuild {
             ndkBuild {
-                arguments "APP_PLATFORM=android-19"
-                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+                arguments 'APP_PLATFORM=latest'
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
             // cmake {
             //     arguments "-DANDROID_APP_PLATFORM=android-19", "-DANDROID_STL=c++_static"
@@ -33,6 +32,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ndk {
+                debugSymbolLevel 'none'
+            }
         }
     }
     applicationVariants.all { variant ->

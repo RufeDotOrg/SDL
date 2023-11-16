@@ -210,7 +210,21 @@ SDL_HideHomeIndicatorHintChanged(void *userdata, const char *name, const char *o
 #if !TARGET_OS_TV
 - (NSUInteger)supportedInterfaceOrientations
 {
+  if (window->flags & SDL_WINDOW_RESIZABLE) {
     return UIKit_GetSupportedOrientations(window);
+  }
+
+  switch(self.interfaceOrientation) {
+  case 0:
+  case 1:
+    return UIInterfaceOrientationMaskPortrait;
+  case 2:
+    return UIInterfaceOrientationMaskPortraitUpsideDown;
+  case 3:
+    return UIInterfaceOrientationMaskLandscapeRight;
+  case 4:
+    return UIInterfaceOrientationMaskLandscapeLeft;
+  }
 }
 
 - (BOOL)prefersStatusBarHidden

@@ -311,6 +311,15 @@ void UIKit_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
     }
 }
 
+void UIKit_SetWindowResizable(_THIS, SDL_Window * window, SDL_VideoDisplay * display, SDL_bool resizable)
+{
+    @autoreleasepool {
+      SDL_WindowData *data = (__bridge SDL_WindowData *) window->driverdata;
+      SDL_uikitviewcontroller *viewcontroller = data.viewcontroller;
+      [viewcontroller setNeedsUpdateOfSupportedInterfaceOrientations];
+    }
+}
+
 void UIKit_SetWindowMouseGrab(_THIS, SDL_Window * window, SDL_bool grabbed)
 {
     /* There really isn't a concept of window grab or cursor confinement on iOS */

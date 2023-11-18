@@ -35,8 +35,8 @@
 #if (__IPHONE_OS_VERSION_MAX_ALLOWED >= 140000) || (__APPLETV_OS_VERSION_MAX_ALLOWED >= 140000) || (__MAC_OS_VERSION_MAX_ALLOWED > 1500000)
 #import <GameController/GameController.h>
 
-#define ENABLE_GCKEYBOARD
-#define ENABLE_GCMOUSE
+//#define ENABLE_GCKEYBOARD
+//#define ENABLE_GCMOUSE
 #endif
 
 static BOOL UIKit_EventPumpEnabled = YES;
@@ -132,7 +132,7 @@ void UIKit_PumpEvents(_THIS)
        to touch input), but not long enough to introduce a significant
        delay in the rest of the app.
     */
-    const CFTimeInterval seconds = 0.000002;
+    const CFTimeInterval seconds = 0;
 
     /* Pump most event types. */
     SInt32 result;

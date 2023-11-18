@@ -24,10 +24,12 @@
 
 #include "SDL_platform.h"
 
+// Rufe.org custom
+#define SDL_HIDAPI_DISABLED 1
+
 /**
  *  \file SDL_config.h
  */
-
 /* Add any platform that doesn't build using the configure system. */
 #if defined(__WIN32__)
 #include "SDL_config_windows.h"

@@ -186,6 +186,10 @@ extern DECLSPEC int SDLCALL SDL_LinuxSetThreadPriorityAndPolicy(Sint64 threadID,
 #endif /* __LINUX__ */
 	
 /* Platform specific functions for iOS */
+#ifdef __APPLE__
+extern DECLSPEC char* SDLCALL SDL_AppleGetDocumentPath(const char*, const char*);
+#endif
+
 #ifdef __IPHONEOS__
 
 #define SDL_iOSSetAnimationCallback(window, interval, callback, callbackParam) SDL_iPhoneSetAnimationCallback(window, interval, callback, callbackParam)

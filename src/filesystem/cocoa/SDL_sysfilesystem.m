@@ -67,6 +67,43 @@ char *SDL_GetBasePath(void)
     }
 }
 
+char *SDL_AppleGetDocumentPath(const char *org, const char *app)
+{
+    @autoreleasepool {
+        char *retval = NULL;
+        NSArray *array;
+
+#if !TARGET_OS_TV
+        array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+#endif /* !TARGET_OS_TV */
+
+        if ([array count] > 0) { /* we only want the first item in the list. */
+            NSString *str = [array objectAtIndex:0];
+            const char *base = [str fileSystemRepresentation];
+            if (base) {
+                const size_t len = SDL_strlen(base) + 2;
+                retval = (char *)SDL_malloc(len);
+                if (retval == NULL) {
+                    SDL_OutOfMemory();
+                } else {
+                    char *ptr;
+                    SDL_snprintf(retval, len, "%s/", base);
+                    for (ptr = retval + 1; *ptr; ptr++) {
+                        if (*ptr == '/') {
+                            *ptr = '\0';
+                            mkdir(retval, 0700);
+                            *ptr = '/';
+                        }
+                    }
+                    mkdir(retval, 0700);
+                }
+            }
+        }
+
+        return retval;
+    }
+}
+
 char *SDL_GetPrefPath(const char *org, const char *app)
 {
     @autoreleasepool {

@@ -81,6 +81,11 @@ extern "C" {
  */
 extern DECLSPEC char *SDLCALL SDL_GetBasePath(void);
 
+/* Platform specific functions for iOS */
+#ifdef __APPLE__
+extern DECLSPEC char* SDLCALL SDL_AppleGetDocumentPath(const char*, const char*);
+#endif
+
 /**
  * Get the user-and-app-specific path where files can be written.
  *

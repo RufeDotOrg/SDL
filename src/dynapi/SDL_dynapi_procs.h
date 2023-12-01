@@ -982,4 +982,7 @@ SDL_DYNAPI_PROC(void,SDL_GDKSuspendComplete,(void),(),)
 SDL_DYNAPI_PROC(SDL_bool,SDL_HasWindowSurface,(SDL_Window *a),(a),return)
 SDL_DYNAPI_PROC(int,SDL_DestroyWindowSurface,(SDL_Window *a),(a),return)
 SDL_DYNAPI_PROC(int,SDL_GetWindowSafeRect,(SDL_Window *a, SDL_Rect *b),(a,b),return)
+#ifdef __APPLE__
 SDL_DYNAPI_PROC(char*,SDL_AppleGetDocumentPath,(const char *a, const char *b),(a,b),return)
+#endif
+SDL_DYNAPI_PROC(char*,SDL_GetCachePath,(const char *a, const char *b),(a,b),return)

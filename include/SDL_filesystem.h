@@ -86,6 +86,9 @@ extern DECLSPEC char *SDLCALL SDL_GetBasePath(void);
 extern DECLSPEC char* SDLCALL SDL_AppleGetDocumentPath(const char*, const char*);
 #endif
 
+/* Get user storage that may be discarded without adverse affects */
+extern DECLSPEC char* SDLCALL SDL_GetCachePath(const char*, const char*);
+
 /**
  * Get the user-and-app-specific path where files can be written.
  *

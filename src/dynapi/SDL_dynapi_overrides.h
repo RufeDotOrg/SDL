@@ -898,3 +898,4 @@
 #define SDL_DestroyWindowSurface SDL_DestroyWindowSurface_REAL
 #define SDL_GetWindowSafeRect SDL_GetWindowSafeRect_REAL
 #define SDL_AppleGetDocumentPath SDL_AppleGetDocumentPath_REAL
+#define SDL_GetCachePath SDL_GetCachePath_REAL

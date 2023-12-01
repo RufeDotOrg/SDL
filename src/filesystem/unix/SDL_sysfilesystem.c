@@ -342,6 +342,11 @@ char *SDL_GetPrefPath(const char *org, const char *app)
     return retval;
 }
 
+char *SDL_GetCachePath(const char *org, const char *app)
+{
+    return strdup("/tmp/");
+}
+
 #endif /* SDL_FILESYSTEM_UNIX */
 
 /* vi: set ts=4 sw=4 expandtab: */

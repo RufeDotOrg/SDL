@@ -2447,6 +2447,60 @@ char *SDL_AndroidGetInternalStoragePath(void)
     return s_AndroidInternalFilesPath;
 }
 
+char *SDL_AndroidGetCacheStoragePath(void)
+{
+    static char *s_AndroidCacheFilesPath = NULL;
+
+    if (s_AndroidCacheFilesPath == NULL) {
+        struct LocalReferenceHolder refs = LocalReferenceHolder_Setup(__FUNCTION__);
+        jmethodID mid;
+        jobject context;
+        jobject fileObject;
+        jstring pathString;
+        const char *path;
+
+        JNIEnv *env = Android_JNI_GetEnv();
+        if (!LocalReferenceHolder_Init(&refs, env)) {
+            LocalReferenceHolder_Cleanup(&refs);
+            return NULL;
+        }
+
+        /* context = SDLActivity.getContext(); */
+        context = (*env)->CallStaticObjectMethod(env, mActivityClass, midGetContext);
+        if (!context) {
+            SDL_SetError("Couldn't get Android context!");
+            LocalReferenceHolder_Cleanup(&refs);
+            return NULL;
+        }
+
+        /* fileObj = context.getFilesDir(); */
+        mid = (*env)->GetMethodID(env, (*env)->GetObjectClass(env, context),
+                                  "getCacheDir", "()Ljava/io/File;");
+        fileObject = (*env)->CallObjectMethod(env, context, mid);
+        if (!fileObject) {
+            SDL_SetError("Couldn't get internal directory");
+            LocalReferenceHolder_Cleanup(&refs);
+            return NULL;
+        }
+
+        /* path = fileObject.getCanonicalPath(); */
+        mid = (*env)->GetMethodID(env, (*env)->GetObjectClass(env, fileObject),
+                                  "getCanonicalPath", "()Ljava/lang/String;");
+        pathString = (jstring)(*env)->CallObjectMethod(env, fileObject, mid);
+        if (Android_JNI_ExceptionOccurred(SDL_FALSE)) {
+            LocalReferenceHolder_Cleanup(&refs);
+            return NULL;
+        }
+
+        path = (*env)->GetStringUTFChars(env, pathString, NULL);
+        s_AndroidCacheFilesPath = SDL_strdup(path);
+        (*env)->ReleaseStringUTFChars(env, pathString, path);
+
+        LocalReferenceHolder_Cleanup(&refs);
+    }
+    return s_AndroidCacheFilesPath;
+}
+
 int SDL_AndroidGetExternalStorageState(void)
 {
     struct LocalReferenceHolder refs = LocalReferenceHolder_Setup(__FUNCTION__);

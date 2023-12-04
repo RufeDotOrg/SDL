@@ -379,6 +379,9 @@ extern DECLSPEC void SDLCALL SDL_AndroidBackButton(void);
  */
 extern DECLSPEC char * SDLCALL SDL_AndroidGetInternalStoragePath(void);
 
+/* Cache directory */
+extern DECLSPEC char * SDLCALL SDL_AndroidGetCacheStoragePath(void);
+
 /**
  * Get the current state of external storage.
  *

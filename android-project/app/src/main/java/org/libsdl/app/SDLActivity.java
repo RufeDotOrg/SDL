@@ -217,7 +217,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
     protected static Hashtable<Integer, PointerIcon> mCursors;
     protected static int mLastCursorID;
     protected static SDLGenericMotionListener_API12 mMotionListener;
-    protected static HIDDeviceManager mHIDDeviceManager;
 
     // This is what SDL runs in. It invokes SDL_main(), eventually
     protected static Thread mSDLThread;
@@ -390,8 +389,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
 
         mClipboardHandler = new SDLClipboardHandler();
 
-        mHIDDeviceManager = HIDDeviceManager.acquire(this);
-
         // Set up the surface
         mSurface = createSDLSurface(this);
 
@@ -458,9 +455,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         Log.v(TAG, "onPause()");
         super.onPause();
 
-        if (mHIDDeviceManager != null) {
-            mHIDDeviceManager.setFrozen(true);
-        }
         if (!mHasMultiWindow) {
             pauseNativeThread();
         }
@@ -471,9 +465,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         Log.v(TAG, "onResume()");
         super.onResume();
 
-        if (mHIDDeviceManager != null) {
-            mHIDDeviceManager.setFrozen(false);
-        }
         if (!mHasMultiWindow) {
             resumeNativeThread();
         }
@@ -583,11 +574,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
     @Override
     protected void onDestroy() {
         Log.v(TAG, "onDestroy()");
-
-        if (mHIDDeviceManager != null) {
-            HIDDeviceManager.release(mHIDDeviceManager);
-            mHIDDeviceManager = null;
-        }
 
         SDLAudioManager.release(this);
 

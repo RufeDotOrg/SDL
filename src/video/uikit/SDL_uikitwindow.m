@@ -311,7 +311,7 @@ void UIKit_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
     }
 }
 
-void UIKit_SetWindowResizable(_THIS, SDL_Window * window, SDL_VideoDisplay * display, SDL_bool resizable)
+void UIKit_SetWindowResizable(_THIS, SDL_Window * window, SDL_bool resizable)
 {
     @autoreleasepool {
       SDL_WindowData *data = (__bridge SDL_WindowData *) window->driverdata;

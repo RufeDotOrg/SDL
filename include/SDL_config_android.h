@@ -173,19 +173,23 @@
 #define SDL_VIDEO_DRIVER_ANDROID 1
 
 /* Enable OpenGL ES */
-#define SDL_VIDEO_OPENGL_ES 1
-#define SDL_VIDEO_OPENGL_ES2 1
+// Rufe.org custom
+#define SDL_VIDEO_RENDER_OGL_ES 0
+#define SDL_VIDEO_OPENGL_ES 0
+
 #define SDL_VIDEO_OPENGL_EGL 1
-#define SDL_VIDEO_RENDER_OGL_ES 1
+#define SDL_VIDEO_OPENGL_ES2 1
 #define SDL_VIDEO_RENDER_OGL_ES2    1
 
 /* Enable Vulkan support */
-/* Android does not support Vulkan in native code using the "armeabi" ABI. */
-#if defined(__ARM_ARCH) && __ARM_ARCH < 7
+// Rufe.org custom
 #define SDL_VIDEO_VULKAN 0
-#else
-#define SDL_VIDEO_VULKAN 1
-#endif
+/* Android does not support Vulkan in native code using the "armeabi" ABI. */
+// #if defined(__ARM_ARCH) && __ARM_ARCH < 7
+// #define SDL_VIDEO_VULKAN 0
+// #else
+// #define SDL_VIDEO_VULKAN 1
+// #endif
 
 /* Enable system power support */
 #define SDL_POWER_ANDROID 1

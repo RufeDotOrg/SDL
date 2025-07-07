@@ -82,8 +82,8 @@ LOCAL_CFLAGS += -Wno-unused-parameter -Wno-sign-compare
 # LOCAL_CXXFLAGS += -std=gnu++11
 
 # Rufe.org: disabled
-# -lOpenSLES
-LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog -landroid
+# -lOpenSLES -lGLESv1_CM 
+LOCAL_LDLIBS := -ldl -lGLESv2 -llog -landroid
 
 LOCAL_LDFLAGS := -Wl,--no-undefined
 

@@ -62,19 +62,19 @@ LOCAL_SRC_FILES := \
 	$(wildcard $(LOCAL_PATH)/src/test/*.c))
 
 LOCAL_CFLAGS += -DGL_GLEXT_PROTOTYPES
-LOCAL_CFLAGS += \
-	-Wall -Wextra \
-	-Wdocumentation \
-	-Wmissing-prototypes \
-	-Wunreachable-code-break \
-	-Wunneeded-internal-declaration \
-	-Wmissing-variable-declarations \
-	-Wfloat-conversion \
-	-Wshorten-64-to-32 \
-	-Wunreachable-code-return \
-	-Wshift-sign-overflow \
-	-Wstrict-prototypes \
-	-Wkeyword-macro \
+#LOCAL_CFLAGS += \
+#	-Wall -Wextra \
+#	-Wdocumentation \
+#	-Wmissing-prototypes \
+#	-Wunreachable-code-break \
+#	-Wunneeded-internal-declaration \
+#	-Wmissing-variable-declarations \
+#	-Wfloat-conversion \
+#	-Wshorten-64-to-32 \
+#	-Wunreachable-code-return \
+#	-Wshift-sign-overflow \
+#	-Wstrict-prototypes \
+#	-Wkeyword-macro \
 
 # Warnings we haven't fixed (yet)
 LOCAL_CFLAGS += -Wno-unused-parameter -Wno-sign-compare

@@ -17,6 +17,7 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_C_INCLUDES)
 # Rufe.org custom
 #$(wildcard $(LOCAL_PATH)/src/hidapi/android/*.cpp) \
 #$(wildcard $(LOCAL_PATH)/src/sensor/android/*.c) \
+#$(wildcard $(LOCAL_PATH)/src/audio/openslES/*.c) \
 #
 LOCAL_SRC_FILES := \
 	$(subst $(LOCAL_PATH)/,, \
@@ -25,7 +26,6 @@ LOCAL_SRC_FILES := \
 	$(wildcard $(LOCAL_PATH)/src/audio/android/*.c) \
 	$(wildcard $(LOCAL_PATH)/src/audio/dummy/*.c) \
 	$(wildcard $(LOCAL_PATH)/src/audio/aaudio/*.c) \
-	$(wildcard $(LOCAL_PATH)/src/audio/openslES/*.c) \
 	$(LOCAL_PATH)/src/atomic/SDL_atomic.c.arm \
 	$(LOCAL_PATH)/src/atomic/SDL_spinlock.c.arm \
 	$(wildcard $(LOCAL_PATH)/src/core/android/*.c) \
@@ -81,7 +81,9 @@ LOCAL_CFLAGS += -Wno-unused-parameter -Wno-sign-compare
 
 # LOCAL_CXXFLAGS += -std=gnu++11
 
-LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -lOpenSLES -llog -landroid
+# Rufe.org: disabled
+# -lOpenSLES
+LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog -landroid
 
 LOCAL_LDFLAGS := -Wl,--no-undefined
 

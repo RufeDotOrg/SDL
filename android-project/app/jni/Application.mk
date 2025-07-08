@@ -6,7 +6,7 @@
 APP_STL := none
 
 # Support Android 16K pagesize
-APP_CFLAGS += -z max-page-size=16384
+APP_LDFLAGS += -Wl,-z,max-page-size=16384
 # Math options
 APP_CFLAGS += -fno-math-errno -ffp-contract=fast -freciprocal-math -fno-trapping-math
 

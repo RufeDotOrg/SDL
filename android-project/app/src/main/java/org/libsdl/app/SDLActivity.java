@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.net.Uri;
 import android.os.Build;
@@ -50,7 +51,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -529,11 +532,17 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
 
         mHasFocus = hasFocus;
         if (hasFocus) {
-           mNextNativeState = NativeState.RESUMED;
-           SDLActivity.getMotionListener().reclaimRelativeMouseModeIfNeeded();
+            List<Rect> exclusion = new ArrayList<>();
+            Rect fullscreen = new Rect(0, 0, getResources().getDisplayMetrics().widthPixels,
+                                       getResources().getDisplayMetrics().heightPixels);
+            exclusion.add(fullscreen);
+            getWindow().setSystemGestureExclusionRects(exclusion);
 
-           SDLActivity.handleNativeState();
-           nativeFocusChanged(true);
+            mNextNativeState = NativeState.RESUMED;
+            SDLActivity.getMotionListener().reclaimRelativeMouseModeIfNeeded();
+
+            SDLActivity.handleNativeState();
+            nativeFocusChanged(true);
 
         } else {
            nativeFocusChanged(false);

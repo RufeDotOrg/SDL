@@ -69,11 +69,6 @@ sed -i -e "s|org\.libsdl\.app|$APP|g" $BUILDPATH/app/src/main/AndroidManifest.xm
 rm -rf $BUILDPATH/app/jni/src
 ln -s "$CURDIR" $BUILDPATH/app/jni/src
 
-# Point project Android.mk at this source (path relative to cwd / jni/src)
-if [ -f "$CURDIR/Android.mk" ]; then
-    sed -i -e "s|^LOCAL_SRC_FILES :=.*|LOCAL_SRC_FILES :=  $MKSOURCES|" "$CURDIR/Android.mk"
-fi
-
 # Create an inherited Activity
 cd $BUILDPATH/app/src/main/java
 for folder in "${APPARR[@]}"
@@ -101,4 +96,4 @@ echo "Package: $APP"
 echo "jni/src -> $CURDIR"
 echo "To build and install to a device for testing, run the following:"
 echo "cd $BUILDPATH"
-echo "./gradlew installDebug"
+echo "./gradlew assembleDebug"

@@ -1,32 +1,34 @@
 #!/bin/bash
 
-SOURCES=()
-MKSOURCES=""
-CURDIR=`pwd -P`
+# Single-source Android project scaffold for org.rufe apps.
+# Usage: androidbuild.sh src/<file>.c
+#   any src/<file>.c is fine; package = org.rufe.<file>
+#   jni/src = symlink to cwd (project root; expects Android.mk there)
+# Put this script back under $SDL/build-scripts/ so SDLPATH resolves.
+# COPYSOURCE=1 copies SDL source instead of symlinking.
 
-# Fetch sources
-if [[ $# -ge 2 ]]; then
-    for src in ${@:2}
-    do
-        SOURCES+=($src)
-        MKSOURCES="$MKSOURCES $(basename $src)"
-    done
-else
-    if [ -n "$1" ]; then
-        while read src
-        do
-            SOURCES+=($src)
-            MKSOURCES="$MKSOURCES $(basename $src)"
-        done
-    fi
-fi
-
-if [ -z "$1" ] || [ -z "$SOURCES" ]; then
-    echo "Usage: androidbuild.sh com.yourcompany.yourapp < sources.list"
-    echo "Usage: androidbuild.sh com.yourcompany.yourapp source1.c source2.c ...sourceN.c"
-    echo "To copy SDL source instead of symlinking: COPYSOURCE=1 androidbuild.sh ... "
+if [ -z "$1" ] || [ -n "$2" ]; then
+    echo "Usage: androidbuild.sh src/<file>.c"
+    echo "package is org.rufe.<file>"
+    echo "  src/tree.c  -> org.rufe.tree"
+    echo "  src/paint.c -> org.rufe.paint"
+    echo "Run from project root: jni/src becomes a symlink to cwd"
+    echo "COPYSOURCE=1 androidbuild.sh ...  copies SDL instead of symlink"
     exit 1
 fi
+
+SRC="$1"
+CURDIR=`pwd -P`
+
+if [ ! -f "$SRC" ]; then
+    echo "Source not found: $SRC"
+    exit 1
+fi
+
+BASE=$(basename "$SRC" .c)
+APP="org.rufe.$BASE"
+APPARR=(${APP//./ })
+MKSOURCES="$SRC"
 
 SDLPATH="$( cd "$(dirname "$0")/.." ; pwd -P )"
 
@@ -40,8 +42,6 @@ if [ ! -d "$ANDROID_HOME/ndk-bundle" -a -z "$ANDROID_NDK_HOME" ]; then
     exit 1
 fi
 
-APP="$1"
-APPARR=(${APP//./ })
 BUILDPATH="$SDLPATH/build/$APP"
 
 # Start Building
@@ -62,15 +62,17 @@ else
 fi
 
 cp -r $SDLPATH/Android.mk $BUILDPATH/app/jni/SDL
-sed -i -e "s|YourSourceHere.c|$MKSOURCES|g" $BUILDPATH/app/jni/src/Android.mk
 sed -i -e "s|org\.libsdl\.app|$APP|g" $BUILDPATH/app/build.gradle
 sed -i -e "s|org\.libsdl\.app|$APP|g" $BUILDPATH/app/src/main/AndroidManifest.xml
 
-# Copy user sources
-for src in "${SOURCES[@]}"
-do
-    cp $src $BUILDPATH/app/jni/src
-done
+# Project root is jni/src (replaces template dir + source copy)
+rm -rf $BUILDPATH/app/jni/src
+ln -s "$CURDIR" $BUILDPATH/app/jni/src
+
+# Point project Android.mk at this source (path relative to cwd / jni/src)
+if [ -f "$CURDIR/Android.mk" ]; then
+    sed -i -e "s|^LOCAL_SRC_FILES :=.*|LOCAL_SRC_FILES :=  $MKSOURCES|" "$CURDIR/Android.mk"
+fi
 
 # Create an inherited Activity
 cd $BUILDPATH/app/src/main/java
@@ -95,6 +97,8 @@ public class $ACTIVITY extends SDLActivity
 __EOF__
 
 # Update project and build
+echo "Package: $APP"
+echo "jni/src -> $CURDIR"
 echo "To build and install to a device for testing, run the following:"
 echo "cd $BUILDPATH"
 echo "./gradlew installDebug"
